@@ -35,7 +35,13 @@ class Task1 implements Runnable {
 
 	@Override
 	public void run() {
-		pen.writeWithPenAndPaper(paper); // thread1 locks pen and tries to lock paper
+// Task1 thread will try to lock paper object before acquiring lock on pen
+// object. This way deadlock won't happen.
+//		synchronized (paper) {
+//			pen.writeWithPenAndPaper(paper);
+//		}
+
+		pen.writeWithPenAndPaper(paper);// thread1 locks pen and tries to lock paper
 	}
 }
 
@@ -54,7 +60,7 @@ class Task2 implements Runnable {
 	}
 }
 
-public class CopiedExample {
+public class DeadLockCopiedExample {
 	public static void main(String[] args) {
 		Pen pen = new Pen();
 		Paper paper = new Paper();

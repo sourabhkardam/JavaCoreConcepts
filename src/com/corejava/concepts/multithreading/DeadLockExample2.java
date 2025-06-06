@@ -1,9 +1,15 @@
 package com.corejava.concepts.multithreading;
 
+/**
+ * Deadlock is a situation where one thread acquire locks on one resource and
+ * trying to hold a lock on other resource which is locked by another thread.
+ * And that another thread is trying to acquire lock on resource which is
+ * acquired by first thread.
+ */
 class Mouse {
 	public synchronized void useMouseAndKeyboard(Keyboard keyboard) {
-//		System.out.println(Thread.currentThread().getName() + " is using mouse " + this + " and trying to use keyboard "
-//				+ keyboard);
+		System.out.println(
+				Thread.currentThread().getName() + " acquired locked on " + this + " and trying to lock " + keyboard);
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -22,8 +28,8 @@ class Mouse {
 
 class Keyboard {
 	public synchronized void useKeyboardAndMouse(Mouse mouse) {
-//		System.out.println(
-//				Thread.currentThread().getName() + " is using keyboard " + this + " and trying to use mouse " + mouse);
+		System.out.println(
+				Thread.currentThread().getName() + " acquired locked on " + this + " and trying to lock " + mouse);
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
