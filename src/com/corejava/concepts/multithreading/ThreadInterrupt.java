@@ -35,7 +35,7 @@ public class ThreadInterrupt {
 
 			}
 
-			// As interrupt flag was preserved, it will return false.
+			// As interrupt flag was preserved, it will return true.
 			System.out.print(
 					Thread.currentThread().getName() + " was interruped:" + Thread.currentThread().isInterrupted());
 		});

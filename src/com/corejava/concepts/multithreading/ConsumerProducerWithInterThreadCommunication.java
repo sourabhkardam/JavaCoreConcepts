@@ -18,15 +18,16 @@ class Factory {
 			try {
 				// will release the lock on factory object and will wait/sleep till consumer
 				// thread notify
-				System.out.println("Producer thread is waiting for consumer thread to consume the item");
+				System.out.println("Producer thread is waiting for consumer thread to consume the item.");
 				wait();
+				System.out.println("Producer thread is woked up by consumer thread.");
 			} catch (InterruptedException e) {
 			}
 		}
-		
+
 		isProduced = true;
 		count++;
-		System.out.println("Produced " + count + " item");
+		System.out.println("Producer has produced " + count + " item");
 
 		// will notify consumer thread that producer thread has released the lock on
 		// factory object and you can stop wait
@@ -52,11 +53,12 @@ class Factory {
 				// thread notify
 				System.out.println("Consumer thread is waiting for producer thread to produce the item");
 				wait();
+				System.out.println("Consumer thread is woked up by producer thread.");
 			} catch (InterruptedException e) {
 			}
 		}
 		isProduced = false;
-		System.out.println("Consumed " + count + " item");
+		System.out.println("Consumer has consumed " + count + " item");
 
 		// will notify producer thread that consumer thread has released the lock on
 		// factory object and you can stop wait
@@ -68,7 +70,7 @@ class Factory {
 
 }
 
-public class ConsumerProducer1 {
+public class ConsumerProducerWithInterThreadCommunication {
 	public static void main(String[] args) {
 		Factory factory = new Factory();
 
