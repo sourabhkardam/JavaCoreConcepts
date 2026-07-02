@@ -1,7 +1,7 @@
 package com.corejava.concepts.stream;
 
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 class Employee {
@@ -44,6 +44,15 @@ class Employee {
 
 }
 
+class NameLengthFilter implements Predicate<String>{
+
+	@Override
+	public boolean test(String name) {		
+		return name.length() > 3;
+	}
+	
+}
+
 public class MethodReferenceWithStream {
 
 	public static String prefixMr(String name) {
@@ -62,6 +71,10 @@ public class MethodReferenceWithStream {
 		List<String> list1 = names.stream().filter(name -> name.length() > 3).map(name -> "Mr." + name)
 				.collect(Collectors.toList());
 		System.out.println(list1);
+		
+
+		List<String> filteredNames = names.stream().filter(new NameLengthFilter()).collect(Collectors.toList());
+		System.out.println(filteredNames);
 
 		/**
 		 * Method Reference is used to replace a lambda expression which is calling an

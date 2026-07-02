@@ -12,7 +12,7 @@ class MyExecutor implements Executor {
 
 }
 
-public class BasicCustomExecutor {
+public class CustomExecutorBasic {
 
 	public static void main(String[] args) {
 		MyExecutor executor = new MyExecutor();

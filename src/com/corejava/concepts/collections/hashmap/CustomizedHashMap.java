@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This map doesn't support collison logic.
+ */
 class CustomHashMap<K, V> implements Map<K, V> {
 	private int size;
 
@@ -54,7 +57,7 @@ class CustomHashMap<K, V> implements Map<K, V> {
 	@Override
 	public V get(Object key) {
 		int hashCode = key.hashCode();
-		int index = hashCode / buckets.length;
+		int index = hashCode % buckets.length;
 		return (V) buckets[index].value;
 	}
 
@@ -125,6 +128,11 @@ public class CustomizedHashMap {
 		empMap.put(11251, "Rohit");
 		empMap.put(11250, "Mohit");
 		empMap.put(11253, "Sourabh Kumar");
+
+		System.out.println(empMap.get(111));
+		
+		// Below will give null pointer exception
+//		System.out.println(empMap.get(112));
 
 		System.out.println(empMap);
 	}
