@@ -15,6 +15,7 @@ class CustomHashMap<K, V> implements Map<K, V> {
 		private int hashCode;
 		private K key;
 		private V value;
+		private Node next;
 
 		public Node(int hashCode, K key, V value) {
 			super();
@@ -56,17 +57,64 @@ class CustomHashMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V get(Object key) {
-		int hashCode = key.hashCode();
-		int index = hashCode % buckets.length;
-		return (V) buckets[index].value;
+		int index = getBucketIndex((K) key);
+
+		Node temp = buckets[index];
+		if (temp == null)
+			return null;
+
+		while (temp != null) {
+			if (((V) key).equals(temp.key)) {
+				return (V) temp.value;
+			}
+			temp = temp.next;
+		}
+
+		return null;
+	}
+
+	private int getBucketIndex(K key) {
+//		int index = key.hashCode() % buckets.length;
+		return getHashCode(key) & (buckets.length - 1);
+	}
+
+	private int getHashCode(K key) {
+		return key.hashCode();
 	}
 
 	@Override
 	public V put(K key, V value) {
-		// TODO Auto-generated method stub
-		int hashCode = key.hashCode();
-		int index = hashCode % buckets.length;
-		buckets[index] = new Node(hashCode, key, value);
+		int index = getBucketIndex((K) key);
+
+		Node temp = buckets[index];
+		if (temp == null) {
+			buckets[index] = new Node(getHashCode(key), key, value);
+			size++;
+			return value;
+		}
+
+		boolean isPresent = false;
+		Node last = temp;
+		while (temp != null) {
+			// key already exist, update it
+			if (key.equals(temp.key)) {
+				buckets[index].value = value;
+				isPresent = true;
+				break;
+			}
+
+			if (temp.next == null) {
+				last = temp;
+			}
+
+			temp = temp.next;
+		}
+
+		if (!isPresent) {
+			last.next = new Node(getHashCode(key), key, value);
+			size++;
+		}
+
 		return value;
 	}
 
@@ -124,15 +172,21 @@ public class CustomizedHashMap {
 
 	public static void main(String[] args) {
 		CustomHashMap<Integer, String> empMap = new CustomHashMap<Integer, String>(10);
+
+		// Put operation
 		empMap.put(11253, "Sourabh");
-		empMap.put(11251, "Rohit");
+//		empMap.put(11251, "Rohit");
 		empMap.put(11250, "Mohit");
 		empMap.put(11253, "Sourabh Kumar");
+		empMap.put(10776, "Sourabh");
 
+		// Get operation
 		System.out.println(empMap.get(111));
-		
-		// Below will give null pointer exception
-//		System.out.println(empMap.get(112));
+		System.out.println(empMap.get(11253));
+		System.out.println(empMap.get(11251));
+
+		// Check size
+		System.out.println(empMap.size());
 
 		System.out.println(empMap);
 	}
